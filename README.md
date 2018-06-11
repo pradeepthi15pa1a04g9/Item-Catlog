@@ -1,4 +1,4 @@
-udacity-item-catalog
+Item Catalog
 =============
 
 Description
@@ -15,7 +15,6 @@ Technical Skills
 
 Test-driving the app with vagrant
 -------------
-(Using $repo to refer to the path of the repository)
 
 1. Install Vagrant and VirtualBox
 2. Clone this repository
