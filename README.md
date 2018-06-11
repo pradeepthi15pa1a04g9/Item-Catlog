@@ -47,19 +47,10 @@ To get the Google login working there are a few additional steps:
 13. Place JSON file in item-catalog directory that you cloned from here
 14. Run application using `python finalproject.py`
 
-JSON Endpoints
------------------
-The following are open to the public:
-
-Catalog JSON: `/catalog/JSON`
-    - Displays the whole catalog. Categories and all items.
-
-Categories JSON: `/catalog/categories/JSON`
-    - Displays all categories
-
-Category Items JSON: `/catalog/<path:category_name>/items/JSON`
-    - Displays items for a specific category
-
-Category Item JSON: `/catalog/<path:category_name>/<path:item_name>/JSON`
-    - Displays a specific category item.
+Expected functionality
+-----------------------
+1. Users can login / logout with FB or Google Plus sign in.
+2. Users cannot Get or Post New, Edit, or Delete pages without being signed in.
+3. Users cannot Get or Post Edit or Delete items without being the original creators of the item.
+4. Logged in users can create new items.
 
