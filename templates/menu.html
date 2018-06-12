@@ -1,0 +1,115 @@
+<html>
+	
+<head>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+	<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/1E570167-B8D8-774C-8F50-FEEF4491E7B2/main.js" charset="UTF-8"></script></head>
+	<body>
+			<form action="/login" method="get">
+				<button type="submit">Login</button>	
+			</form>	
+		<div class = 'pane'>
+		<h1>{{ florist.name }}</h1>
+		
+		{% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+    {% if items !=[] %}
+
+		<a href = "{{url_for('newFloristItem', florist_id = florist.id )}}">Create New Florist</a>
+	</br></br>
+
+	<h2>wedding</h2>
+
+		{% for i in items %}
+		{% if i.course == 'wedding' %}
+
+		<p>{{i.name}}</p>
+	
+
+		<p>{{i.description}}</p>
+	
+
+		<p>{{i.price}}</p>
+	
+		<a href='{{url_for('editFloristItem', florist_id = florist.id, bouquet_id=i.id ) }}' >Edit</a>
+	</br>
+	<a href='{{url_for('deleteFloristItem', florist_id = florist.id, bouquet_id=i.id ) }}' >Delete</a>
+</br>
+</br>
+		{% endif %}
+
+		{% endfor %}
+
+		
+
+		</br></br>
+
+	<h2>Engagement</h2>
+
+		{% for i in items %}
+		{% if i.course == 'Engagement' %}
+
+		<p>{{i.name}}</p>
+	
+
+		<p>{{i.description}}</p>
+	
+
+		<p>{{i.price}}</p>
+	
+		<a href='{{url_for('editFloristItem', florist_id = florist.id, bouquet_id=i.id ) }}' >Edit</a>
+	</br>
+	<a href='{{url_for('deleteFloristItem', florist_id = florist.id, bouquet_id=i.id ) }}' >Delete</a>
+</br>
+</br>
+        {% endif %}
+
+		{% endfor %}
+		
+		
+
+		</br></br>
+
+	<h2>anniversary</h2>
+
+		{% for i in items %}
+		{% if i.course == 'anniversary' %}
+
+		<p>{{i.name}}</p>
+	
+
+		<p>{{i.description}}</p>
+	
+
+		<p>{{i.price}}</p>
+	
+		<a href='{{url_for('editFloristItem', florist_id = florist.id, bouquet_id=i.id ) }}' >Edit</a>
+	
+	<a href='{{url_for('deleteFloristItem', florist_id = florist.id, bouquet_id=i.id ) }}' >Delete</a>
+</br>
+</br>
+		{% endif %}
+
+		{% endfor %}
+		
+		
+
+		</br></br>
+		
+		
+        {% else %}
+		<p> You currently have no items. <p>
+		<a href = "{{url_for('newFloristItem', florist_id = florist.id )}}">Create New Florist Item</a>
+			{% endif %}
+</div>
+	</body>
+
+</html>

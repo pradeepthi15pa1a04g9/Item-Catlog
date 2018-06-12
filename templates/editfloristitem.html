@@ -1,0 +1,54 @@
+<html>
+
+<head>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+	<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/1E570167-B8D8-774C-8F50-FEEF4491E7B2/main.js" charset="UTF-8"></script></head>
+
+<body>
+		<form action="/login" method="get">
+			<button type="submit">Login</button>	
+		</form>	
+	<h1> Edit Florist Item </h1>
+
+<form action="#" method = 'post'>
+
+
+	<p>Name:</p>
+		<input type ='text' size='30' name='name' placeholder = '{{item.name }}'>
+	<p>Description:</p>
+		<input type ='text' size='30' name='description' placeholder = '{{item.description}}'>
+	<p>Price:</p>
+		<input type ='text' size='30' name='price' placeholder = '{{item.price}}'>
+	<p>Course:<p>
+
+	{% if item.course == 'wedding' %}
+		<dd><input type ='radio' name='course' value='wedding'checked >wedding</dd>
+	{%else%}
+	<dd><input type ='radio' name='course' value='wedding' >wedding</dd>
+    {% endif %}
+
+    {% if item.course == 'Engagement' %}
+       <dd><input type ='radio' name='course' value='Engagement' checked>Engagement</dd>
+
+    {%else%}
+		<dd><input type ='radio' name='course' value='Engagement'>Engagement</dd>
+    {% endif %}
+
+	{% if item.course == 'anniversary'%}
+		<dd><input type ='radio' name='course' value='anniversary'checked >anniversary</dd>
+
+	{% else %}
+	   <dd><input type ='radio' name='course' value='anniversary'>anniversary</dd>
+
+	{% endif %}
+
+
+<input type='submit' value='Edit'>
+
+
+<a href = '#'> Cancel </a>
+
+
+</form>
+</body>
+</html>
