@@ -23,7 +23,7 @@ session.add(User1)
 session.commit()
 
 
-# Designs of Dutch Florist
+# Designs of Dutch Florists
 florist1 = Florist(user_id=1, name="Dutch Florist")
 
 session.add(florist1)
