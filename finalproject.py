@@ -1,7 +1,9 @@
 from flask import (Flask,
                    render_template,
-                   request, redirect,
-                   jsonify, url_for,
+                   request,
+                   redirect,
+                   jsonify,
+                   url_for,
                    flash)
 
 
@@ -165,7 +167,7 @@ def getUserID(email):
         return None
 
 
-# DISCONNECT - Revoke a current users token and reset their login_session
+# DISCONNECT - Revoke a current user's token and reset their login_session
 @app.route('/gdisconnect')
 def gdisconnect():
     session = DBSession()
