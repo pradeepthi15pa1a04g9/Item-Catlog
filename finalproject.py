@@ -266,10 +266,10 @@ def editFlorist(florist_id):
         Florist).filter_by(id=florist_id).one()
     if 'username' not in login_session:
         return redirect('/login')
-        if editFlorist.user_id == login_session['user_id']:
+        if editedFlorist.user_id == login_session['user_id']:
             if florist.user_id != login_session['user_id']:
                 return "<script>function myFunction() {alert('You \
-            are not authorized to edit this Company.\
+            are not authorized to edit this Florist.\
             Please create your own entry in order \
             to edit/delete.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
@@ -279,12 +279,12 @@ def editFlorist(florist_id):
             session.add(editedFlorist)
             session.commit()
             session.close()
-            return redirect(url_for('showFlorists'))
+            return redirect(url_for('showFlorists', florist_id=florist_id))
 
     else:
         session.close()
         return render_template(
-            'editFlorist.html', florist=editedFlorist)
+            'editFlorist.html', florist_id=florist_id, florist=editedFlorist)
 
     # return 'This page will be for editing florists %s' % florist_id
 
@@ -296,6 +296,14 @@ def deleteFlorist(florist_id):
     session = DBSession()
     floristToDelete = session.query(
         Florist).filter_by(id=florist_id).one()
+    if 'username' not in login_session:
+        return redirect('/login')
+        if floristToDelete.user_id == login_session['user_id']:
+            if floristToDelete.user_id != login_session['user_id']:
+                return "<script>function myFunction() {alert('You \
+                are not authorized to delete this Florist.\
+                Please create your own entry in order \
+                to edit/delete.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         session.delete(floristToDelete)
         session.commit()
@@ -305,7 +313,7 @@ def deleteFlorist(florist_id):
     else:
         session.close()
         return render_template(
-            'deleteFlorist.html', florist=floristToDelete)
+            'deleteFlorist.html', florist_id=florist_id, florist=floristToDelete)
     # return 'This page will be for deleting florist %s' % florist_id
 
 
@@ -317,8 +325,8 @@ def showFloristMenu(florist_id):
     florist = session.query(Florist).filter_by(id=florist_id).one()
     items = session.query(Bouquet).filter_by(
         florist_id=florist_id).all()
-    return render_template('menu.html', items=items, florist=florist)
     session.close()
+    return render_template('menu.html', items=items, florist=florist)
     # return 'This page is the menu for Florists %s' % florist_id
 
 # Create a new florist item
@@ -328,14 +336,17 @@ def showFloristMenu(florist_id):
     '/florist/<int:florist_id>/menu/new/', methods=['GET', 'POST'])
 def newFloristItem(florist_id):
     session = DBSession()
+    florist = session.query(Florist).filter_by(id=florist_id).one()
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
         newItem = Bouquet(name=request.form['name'], description=request.form[
                            'description'], price=request.form[
                                'price'], course=request.form[
-                                   'course'], florist_id=florist_id)
+                                   'course'], florist_id=florist_id, user_id=florist.user_id)
         session.add(newItem)
         session.commit()
-
+        session.close()
         return redirect(url_for('showFloristMenu', florist_id=florist_id))
 
     else:
@@ -353,7 +364,16 @@ def newFloristItem(florist_id):
            methods=['GET', 'POST'])
 def editFloristItem(florist_id, bouquet_id):
     session = DBSession()
+    if 'username' not in login_session:
+        return redirect('/login')
     editedItem = session.query(Bouquet).filter_by(id=bouquet_id).one()
+    florist = session7.query(Florist).filter_by(id=florist_id).one()
+    if login_session['user_id'] == florist.user_id:
+        if florist.user_id != login_session['user_id']:
+            return "<script>function myFunction() {alert('You \
+            are not authorized to edit this Florist.\
+            Please create your own entry in order \
+            to edit/delete.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
@@ -365,6 +385,7 @@ def editFloristItem(florist_id, bouquet_id):
             editedItem.course = request.form['course']
         session.add(editedItem)
         session.commit()
+        session.close()
         return redirect(url_for('showFloristMenu', florist_id=florist_id))
 
     else:
@@ -382,15 +403,26 @@ def editFloristItem(florist_id, bouquet_id):
            methods=['GET', 'POST'])
 def deleteFloristItem(florist_id, bouquet_id):
     session = DBSession()
+    if 'username' not in login_session:
+        return redirect('/login')
+    florist = session8.query(Florist).filter_by(id=florist_id).one()
     itemToDelete = session.query(Bouquet).filter_by(id=bouquet_id).one()
+    if login_session['user_id'] == florist.user_id:
+        if florist.user_id != login_session['user_id']:
+            return "<script>function myFunction() {alert('You \
+            are not authorized to delete this Florist.\
+            Please create your own entry in order \
+            to edit/delete.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
+        session.close()
         return redirect(url_for('showFloristMenu', florist_id=florist_id))
 
     else:
         session.close()
-        return render_template('deleteFloristItem.html', item=itemToDelete)
+        return render_template('deleteFloristItem.html', florist_id=florist_id,
+                               bouquet_id=bouquet_id, item=itemToDelete)
     # return "This page is for deleting florist item %s" % bouquet_id
 
 
