@@ -52,4 +52,3 @@ Expected functionality
 2. Users cannot Get or Post New, Edit, or Delete pages without being signed in.
 3. Users cannot Get or Post Edit or Delete items without being the original creators of the item.
 4. Logged in users can create new items.
-
