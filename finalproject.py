@@ -243,14 +243,17 @@ def showFlorists():
 @app.route('/florist/new/', methods=['GET', 'POST'])
 def newFlorist():
     session = DBSession()
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
         newFlorist = Florist(name=request.form['name'])
         session.add(newFlorist)
         session.commit()
         return redirect(url_for('showFlorists'))
     else:
+        session.close()
         return render_template('newFlorist.html')
-    session.close()
+    
     # return "This page will be for making a new florist"
 
 # Edit a florist
@@ -261,11 +264,21 @@ def editFlorist(florist_id):
     session = DBSession()
     editedFlorist = session.query(
         Florist).filter_by(id=florist_id).one()
+    if 'username' not in login_session:
+        return redirect('/login')
+        if editFlorist.user_id == login_session['user_id']:
+            if florist.user_id != login_session['user_id']:
+                return "<script>function myFunction() {alert('You \
+            are not authorized to edit this Company.\
+            Please create your own entry in order \
+            to edit/delete.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         if request.form['name']:
+            print(editFlorist.name)
             editedFlorist.name = request.form['name']
             session.add(editedFlorist)
             session.commit()
+            session.close()
             return redirect(url_for('showFlorists'))
 
     else:
