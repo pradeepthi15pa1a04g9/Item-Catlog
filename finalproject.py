@@ -279,12 +279,12 @@ def editFlorist(florist_id):
             session.add(editedFlorist)
             session.commit()
             session.close()
-            return redirect(url_for('showFlorists', florist_id=florist_id))
+            return redirect(url_for('showFlorists'))
 
     else:
         session.close()
         return render_template(
-            'editFlorist.html', florist_id=florist_id, florist=editedFlorist)
+            'editFlorist.html', florist=editedFlorist)
 
     # return 'This page will be for editing florists %s' % florist_id
 
@@ -313,7 +313,7 @@ def deleteFlorist(florist_id):
     else:
         session.close()
         return render_template(
-            'deleteFlorist.html', florist_id=florist_id, florist=floristToDelete)
+            'deleteFlorist.html', florist=floristToDelete)
     # return 'This page will be for deleting florist %s' % florist_id
 
 
@@ -343,7 +343,7 @@ def newFloristItem(florist_id):
         newItem = Bouquet(name=request.form['name'], description=request.form[
                            'description'], price=request.form[
                                'price'], course=request.form[
-                                   'course'], florist_id=florist_id, user_id=florist.user_id)
+                                   'course'], florist_id=florist_id)
         session.add(newItem)
         session.commit()
         session.close()
@@ -369,7 +369,7 @@ def editFloristItem(florist_id, bouquet_id):
     editedItem = session.query(Bouquet).filter_by(id=bouquet_id).one()
     florist = session7.query(Florist).filter_by(id=florist_id).one()
     if login_session['user_id'] == florist.user_id:
-        if florist.user_id != login_session['user_id']:
+        if floristToDelete.user_id != login_session['user_id']:
             return "<script>function myFunction() {alert('You \
             are not authorized to edit this Florist.\
             Please create your own entry in order \
@@ -408,7 +408,7 @@ def deleteFloristItem(florist_id, bouquet_id):
     florist = session8.query(Florist).filter_by(id=florist_id).one()
     itemToDelete = session.query(Bouquet).filter_by(id=bouquet_id).one()
     if login_session['user_id'] == florist.user_id:
-        if florist.user_id != login_session['user_id']:
+        if floristToDelete.user_id != login_session['user_id']:
             return "<script>function myFunction() {alert('You \
             are not authorized to delete this Florist.\
             Please create your own entry in order \
