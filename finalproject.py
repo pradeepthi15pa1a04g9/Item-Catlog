@@ -1,10 +1,4 @@
-from flask import (Flask,
-                   render_template,
-                   request,
-                   redirect,
-                   jsonify,
-                   url_for,
-                   flash)
+from flask import Flask,render_template,request,redirect,jsonify,url_for,flash
 
 
 from sqlalchemy import create_engine, asc
@@ -367,13 +361,7 @@ def editFloristItem(florist_id, bouquet_id):
     if 'username' not in login_session:
         return redirect('/login')
     editedItem = session.query(Bouquet).filter_by(id=bouquet_id).one()
-    florist = session7.query(Florist).filter_by(id=florist_id).one()
-    if login_session['user_id'] == florist.user_id:
-        if floristToDelete.user_id != login_session['user_id']:
-            return "<script>function myFunction() {alert('You \
-            are not authorized to edit this Florist.\
-            Please create your own entry in order \
-            to edit/delete.');}</script><body onload='myFunction()'>"
+    florist = session.query(Florist).filter_by(id=florist_id).one()
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
@@ -405,14 +393,8 @@ def deleteFloristItem(florist_id, bouquet_id):
     session = DBSession()
     if 'username' not in login_session:
         return redirect('/login')
-    florist = session8.query(Florist).filter_by(id=florist_id).one()
+    florist = session.query(Florist).filter_by(id=florist_id).one
     itemToDelete = session.query(Bouquet).filter_by(id=bouquet_id).one()
-    if login_session['user_id'] == florist.user_id:
-        if floristToDelete.user_id != login_session['user_id']:
-            return "<script>function myFunction() {alert('You \
-            are not authorized to delete this Florist.\
-            Please create your own entry in order \
-            to edit/delete.');}</script><body onload='myFunction()'>"
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
