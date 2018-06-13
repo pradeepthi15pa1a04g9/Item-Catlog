@@ -1,4 +1,8 @@
-from flask import Flask,render_template,request,redirect,jsonify,url_for,flash
+from flask import (Flask,
+                   render_template,
+                   request, redirect,
+                   jsonify, url_for,
+                   flash)
 
 
 from sqlalchemy import create_engine, asc
@@ -247,8 +251,7 @@ def newFlorist():
     else:
         session.close()
         return render_template('newFlorist.html')
-    
-    # return "This page will be for making a new florist"
+        # return "This page will be for making a new florist"
 
 # Edit a florist
 
